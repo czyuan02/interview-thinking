@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>医药咨询思考框架手册 v2</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap');
+:root{
+  --bg:#faf8f4;--white:#fff;--border:#e8e2d9;--border-light:#f0ece5;
+  --text:#1a1814;--text-muted:#6b6560;--text-dim:#a09890;
+  --c1:#2d5a8e;--c1l:#eef3fa;--c1m:#c5d8f0;
+  --c2:#5a7a3a;--c2l:#f0f5ea;--c2m:#c8dbb0;
+  --c3:#8e4a2d;--c3l:#faf0ea;--c3m:#f0c8b0;
+  --c4:#6b3a8e;--c4l:#f5eefa;--c4m:#d8b0f0;
+  --gold:#b8860b;--gold-l:#fdf8e8;
+  --dark:#1a1814;--hook-text:#f5f0e8;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',sans-serif;font-weight:300;line-height:1.8;}
+.sidebar{position:fixed;top:0;left:0;width:250px;height:100vh;background:var(--white);border-right:1px solid var(--border);overflow-y:auto;z-index:100;padding:24px 0 40px;}
+.sb-logo{padding:0 20px 18px;border-bottom:1px solid var(--border-light);margin-bottom:14px;}
+.sb-title{font-family:'Noto Serif SC',serif;font-size:14px;font-weight:700;line-height:1.4;}
+.sb-sub{font-size:10px;color:var(--text-dim);letter-spacing:.1em;text-transform:uppercase;margin-top:3px;font-family:'DM Mono',monospace;}
+.nav-grp{padding:0 12px;margin-bottom:4px;}
+.nav-lbl{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);padding:8px 8px 3px;font-family:'DM Mono',monospace;}
+.nb{display:flex;align-items:center;gap:8px;width:100%;padding:6px 10px;border:none;background:none;border-radius:6px;cursor:pointer;font-size:12px;font-family:'Noto Sans SC',sans-serif;color:var(--text-muted);text-align:left;transition:all .15s;line-height:1.4;}
+.nb:hover{background:var(--border-light);color:var(--text);}
+.nb.a1{background:var(--c1l);color:var(--c1);font-weight:500;}
+.nb.a2{background:var(--c2l);color:var(--c2);font-weight:500;}
+.nb.a3{background:var(--c3l);color:var(--c3);font-weight:500;}
+.nb.a4{background:var(--c4l);color:var(--c4);font-weight:500;}
+.nd{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.d1{background:var(--c1);}.d2{background:var(--c2);}.d3{background:var(--c3);}.d4{background:var(--c4);}.dg{background:var(--text-dim);}
+.main{margin-left:250px;padding:48px 56px 80px;max-width:880px;}
+.sec{display:none;animation:fu .22s ease;}
+.sec.active{display:block;}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.sh{margin-bottom:36px;padding-bottom:20px;border-bottom:2px solid var(--border);}
+.se{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:7px;}
+.se1{color:var(--c1);}.se2{color:var(--c2);}.se3{color:var(--c3);}.se4{color:var(--c4);}
+.st{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:700;line-height:1.25;margin-bottom:8px;}
+.sd{font-size:14px;color:var(--text-muted);max-width:520px;line-height:1.7;}
+.card{background:var(--white);border:1px solid var(--border);border-radius:12px;margin-bottom:28px;overflow:hidden;}
+.card-h{padding:18px 22px 16px;border-bottom:1px solid var(--border-light);display:flex;align-items:flex-start;gap:12px;}
+.badge{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;flex-shrink:0;margin-top:2px;letter-spacing:.04em;}
+.b1{background:var(--c1l);color:var(--c1);}
+.b2{background:var(--c2l);color:var(--c2);}
+.b3{background:var(--c3l);color:var(--c3);}
+.b4{background:var(--c4l);color:var(--c4);}
+.card-title{font-family:'Noto Serif SC',serif;font-size:17px;font-weight:700;line-height:1.3;flex:1;}
+.card-sub{font-size:12px;color:var(--text-muted);margin-top:2px;}
+.card-b{padding:20px 22px;}
+.when{display:flex;align-items:flex-start;gap:8px;padding:10px 14px;background:var(--gold-l);border:1px solid #e8d88a;border-radius:6px;margin-bottom:18px;font-size:13px;color:#7a6000;line-height:1.6;}
+.fw-lbl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:8px;}
+.items{display:flex;flex-direction:column;gap:7px;margin-bottom:18px;}
+.item{display:flex;gap:11px;align-items:flex-start;padding:10px 13px;border-radius:8px;border-left:3px solid transparent;}
+.i1{background:var(--c1l);border-color:var(--c1);}
+.i2{background:var(--c2l);border-color:var(--c2);}
+.i3{background:var(--c3l);border-color:var(--c3);}
+.i4{background:var(--c4l);border-color:var(--c4);}
+.ik{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;flex-shrink:0;min-width:26px;}
+.k1{color:var(--c1);}.k2{color:var(--c2);}.k3{color:var(--c3);}.k4{color:var(--c4);}
+.ic{font-size:13px;line-height:1.6;}
+.ic strong{font-weight:500;display:block;margin-bottom:1px;}
+.ic .sub{color:var(--text-muted);font-size:12px;}
+.div{height:1px;background:var(--border-light);margin:16px 0;}
+.ex{background:#f8f6f2;border:1px solid var(--border);border-radius:8px;padding:16px 18px;margin-bottom:14px;}
+.ex-lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:8px;}
+.ex-steps{display:flex;flex-direction:column;gap:6px;}
+.exs{display:flex;gap:9px;align-items:flex-start;font-size:13px;color:var(--text-muted);line-height:1.6;}
+.esk{font-family:'DM Mono',monospace;font-size:10px;padding:1px 6px;border-radius:4px;flex-shrink:0;margin-top:3px;}
+.ek1{background:var(--c1m);color:var(--c1);}
+.ek2{background:var(--c2m);color:var(--c2);}
+.ek3{background:var(--c3m);color:var(--c3);}
+.ek4{background:var(--c4m);color:var(--c4);}
+.res{margin-top:10px;padding:8px 12px;background:var(--white);border-radius:6px;border:1px solid var(--border);font-size:13px;line-height:1.6;}
+.arr{color:var(--gold);font-weight:700;margin-right:5px;}
+.say{background:var(--white);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:6px;padding:12px 15px;margin-bottom:14px;font-size:13px;color:var(--text-muted);line-height:1.8;}
+.say-lbl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-family:'DM Mono',monospace;margin-bottom:5px;font-weight:500;}
+.hook{background:var(--dark);border-radius:10px;padding:16px 20px;margin-top:2px;}
+.hook-lbl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#888;font-family:'DM Mono',monospace;margin-bottom:8px;}
+.hook-c{font-size:15px;color:var(--hook-text);font-weight:500;line-height:1.6;}
+.hi{color:#f0c060;font-weight:700;}
+.hook-s{margin-top:7px;font-size:12px;color:#666;line-height:1.6;font-family:'DM Mono',monospace;}
+/* home */
+.cgrid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:28px;}
+.cc{padding:16px;border-radius:10px;border:1px solid var(--border);cursor:pointer;transition:all .15s;}
+.cc:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.08);}
+.cc1{background:var(--c1l);border-color:var(--c1m);}
+.cc2{background:var(--c2l);border-color:var(--c2m);}
+.cc3{background:var(--c3l);border-color:var(--c3m);}
+.cc4{background:var(--c4l);border-color:var(--c4m);}
+.cc-icon{font-size:20px;margin-bottom:8px;}
+.cc-title{font-family:'Noto Serif SC',serif;font-size:13px;font-weight:700;margin-bottom:4px;}
+.t1{color:var(--c1);}.t2{color:var(--c2);}.t3{color:var(--c3);}.t4{color:var(--c4);}
+.cc-desc{font-size:11px;color:var(--text-muted);line-height:1.5;}
+.cc-bgs{margin-top:8px;display:flex;flex-wrap:wrap;gap:3px;}
+.mb{font-family:'DM Mono',monospace;font-size:9px;padding:2px 6px;border-radius:4px;}
+.mb1{background:var(--c1m);color:var(--c1);}
+.mb2{background:var(--c2m);color:var(--c2);}
+.mb3{background:var(--c3m);color:var(--c3);}
+.mb4{background:var(--c4m);color:var(--c4);}
+.tbl{width:100%;border-collapse:collapse;font-size:13px;}
+.tbl th{text-align:left;padding:9px 13px;background:var(--border-light);font-weight:500;font-size:11px;letter-spacing:.05em;color:var(--text-muted);border-bottom:1px solid var(--border);}
+.tbl td{padding:9px 13px;border-bottom:1px solid var(--border-light);vertical-align:top;line-height:1.6;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl tr:hover td{background:var(--border-light);}
+/* IPO special */
+.flow{display:flex;flex-direction:column;gap:0;}
+.flow-item{display:flex;gap:0;align-items:stretch;}
+.flow-left{display:flex;flex-direction:column;align-items:center;width:32px;flex-shrink:0;}
+.flow-circle{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;font-weight:500;flex-shrink:0;}
+.fc1{background:var(--c4l);color:var(--c4);border:2px solid var(--c4m);}
+.flow-line{width:2px;background:var(--border);flex:1;margin:2px auto;}
+.flow-body{padding:0 0 16px 12px;flex:1;}
+.flow-title{font-size:13.5px;font-weight:500;color:var(--text);margin-bottom:3px;}
+.flow-desc{font-size:12px;color:var(--text-muted);line-height:1.6;}
+.flow-tag{display:inline-block;font-size:10px;padding:1px 7px;border-radius:4px;background:var(--c4l);color:var(--c4);font-family:'DM Mono',monospace;margin-top:4px;}
+/* roles table */
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.role-card{padding:12px 14px;border-radius:8px;border:1px solid var(--border);}
+.role-name{font-size:12px;font-weight:500;margin-bottom:4px;}
+.role-desc{font-size:12px;color:var(--text-muted);line-height:1.6;}
+/* report structure */
+.rs-items{display:flex;flex-direction:column;gap:6px;}
+.rs{display:flex;gap:10px;padding:10px 13px;background:var(--c4l);border-left:3px solid var(--c4);border-radius:6px;}
+.rs-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--c4);font-weight:500;flex-shrink:0;min-width:22px;}
+.rs-text{font-size:13px;line-height:1.6;}
+.rs-text strong{font-weight:500;}
+.rs-text .sub{color:var(--text-muted);font-size:12px;display:block;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+</style>
+</head>
+<body>
+<div style="display:flex">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-title">医药咨询<br>思考框架手册</div>
+    <div class="sb-sub">Frost & Sullivan · v2</div>
+  </div>
+
+  <div class="nav-grp">
+    <div class="nav-lbl">总览</div>
+    <button class="nb a1" onclick="S('home',this,'a1')"><span class="nd dg"></span>首页 · 框架总览</button>
+  </div>
+
+  <div class="nav-grp">
+    <div class="nav-lbl" style="color:var(--c4)">🏦 沙利文核心业务</div>
+    <button class="nb" onclick="S('ipo',this,'a4')"><span class="nd d4"></span>IPO行业报告 · 全流程</button>
+    <button class="nb" onclick="S('report',this,'a4')"><span class="nd d4"></span>行业报告结构 · 7要素</button>
+    <button class="nb" onclick="S('market',this,'a4')"><span class="nd d4"></span>市场规模测算 · 方法论</button>
+  </div>
+
+  <div class="nav-grp">
+    <div class="nav-lbl" style="color:var(--c1)">📊 市场分析类</div>
+    <button class="nb" onclick="S('tam',this,'a1')"><span class="nd d1"></span>TAM · 市场规模估算</button>
+    <button class="nb" onclick="S('deep',this,'a1')"><span class="nd d1"></span>DEEP · 行业研究框架</button>
+    <button class="nb" onclick="S('c3r',this,'a1')"><span class="nd d1"></span>3C+1R · 竞争格局</button>
+  </div>
+
+  <div class="nav-grp">
+    <div class="nav-lbl" style="color:var(--c2)">🎯 战略决策类</div>
+    <button class="nb" onclick="S('atm',this,'a2')"><span class="nd d2"></span>ATM · 市场进入判断</button>
+    <button class="nb" onclick="S('psia',this,'a2')"><span class="nd d2"></span>PSIA · 政策影响分析</button>
+    <button class="nb" onclick="S('swot',this,'a2')"><span class="nd d2"></span>SWOT · 整体方向判断</button>
+  </div>
+
+  <div class="nav-grp">
+    <div class="nav-lbl" style="color:var(--c3)">💊 医药营销类</div>
+    <button class="nb" onclick="S('4p',this,'a3')"><span class="nd d3"></span>4P · 医药营销执行</button>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ══ HOME ══ -->
+<div class="sec active" id="home">
+  <div class="sh">
+    <div class="se se1">Healthcare Consulting Frameworks · v2</div>
+    <div class="st">医药咨询思考框架手册</div>
+    <div class="sd">收录沙利文核心业务知识 + 10个分析框架，每个配真实医药例子和记忆钩子。</div>
+  </div>
+
+  <div class="cgrid">
+    <div class="cc cc4" onclick="S('ipo',null,'a4')">
+      <div class="cc-icon">🏦</div>
+      <div class="cc-title t4">沙利文核心业务</div>
+      <div class="cc-desc">IPO流程、行业报告结构、市场测算方法</div>
+      <div class="cc-bgs">
+        <span class="mb mb4">IPO</span>
+        <span class="mb mb4">行业报告</span>
+        <span class="mb mb4">市场测算</span>
+      </div>
+    </div>
+    <div class="cc cc1" onclick="S('tam',null,'a1')">
+      <div class="cc-icon">📊</div>
+      <div class="cc-title t1">市场分析类</div>
+      <div class="cc-desc">规模估算、行业研究、竞争格局</div>
+      <div class="cc-bgs">
+        <span class="mb mb1">TAM</span><span class="mb mb1">DEEP</span><span class="mb mb1">3C+1R</span>
+      </div>
+    </div>
+    <div class="cc cc2" onclick="S('atm',null,'a2')">
+      <div class="cc-icon">🎯</div>
+      <div class="cc-title t2">战略决策类</div>
+      <div class="cc-desc">进入判断、政策分析、整体方向</div>
+      <div class="cc-bgs">
+        <span class="mb mb2">ATM</span><span class="mb mb2">PSIA</span><span class="mb mb2">SWOT</span>
+      </div>
+    </div>
+    <div class="cc cc3" onclick="S('4p',null,'a3')">
+      <div class="cc-icon">💊</div>
+      <div class="cc-title t3">医药营销类</div>
+      <div class="cc-desc">产品上市、渠道策略、推广执行</div>
+      <div class="cc-bgs"><span class="mb mb3">4P</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><div><div class="card-title">什么时候用哪个框架？</div><div class="card-sub">快速对照表</div></div></div>
+    <div class="card-b" style="padding:0">
+      <table class="tbl">
+        <thead><tr><th>面试官问的问题</th><th>框架</th><th>一句话</th></tr></thead>
+        <tbody>
+          <tr><td>沙利文的行业报告怎么写？</td><td><span class="mb mb4">行业报告7要素</span></td><td>定义→分类→价值链→规模→驱动→趋势→竞争</td></tr>
+          <tr><td>市场规模怎么测算？</td><td><span class="mb mb4">市场测算方法</span></td><td>自上而下 or 自下而上</td></tr>
+          <tr><td>IPO行业顾问做什么？</td><td><span class="mb mb4">IPO流程</span></td><td>写行业概览章节，供验证律师核实</td></tr>
+          <tr><td>这个市场有多大？</td><td><span class="mb mb1">TAM</span></td><td>人群漏斗，每步问为什么流失</td></tr>
+          <tr><td>帮我研究这个行业</td><td><span class="mb mb1">DEEP</span></td><td>需求→生态→环境→预测</td></tr>
+          <tr><td>竞争格局如何？</td><td><span class="mb mb1">3C+1R</span></td><td>自己→对手→客户→政策</td></tr>
+          <tr><td>要不要进入这个市场？</td><td><span class="mb mb2">ATM</span></td><td>市场好不好→门槛高不高→我行不行</td></tr>
+          <tr><td>集采/医保政策影响？</td><td><span class="mb mb2">PSIA</span></td><td>政策→谁受影响→短长期→应对</td></tr>
+          <tr><td>这家公司整体怎么样？</td><td><span class="mb mb2">SWOT</span></td><td>内部优劣→外部机会威胁</td></tr>
+          <tr><td>新药怎么做市场推广？</td><td><span class="mb mb3">4P</span></td><td>医药重点在渠道+推广</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ IPO ══ -->
+<div class="sec" id="ipo">
+  <div class="sh">
+    <div class="se se4">沙利文核心业务 · 01</div>
+    <div class="st">IPO行业报告 · 全流程理解</div>
+    <div class="sd">沙利文在IPO中扮演"行业顾问"角色，负责撰写招股书里的行业概览章节。理解这个流程是面试的必考点。</div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="badge b4">IPO流程</span><div><div class="card-title">从提交申请到上市的完整流程</div><div class="card-sub">重点理解沙利文在哪个环节发挥作用</div></div></div>
+    <div class="card-b">
+      <div class="when">💡 <span><strong>面试里为什么要懂这个：</strong>沙利文Healthcare岗有IPO行业顾问业务，面试官会问"你了解IPO吗？沙利文在里面做什么？"</span></div>
+
+      <div class="fw-lbl">IPO完整流程</div>
+      <div class="flow">
+        <div class="flow-item">
+          <div class="flow-left"><div class="flow-circle fc1">1</div><div class="flow-line"></div></div>
+          <div class="flow-body">
+            <div class="flow-title">公司决定上市，选择交易所</div>
+            <div class="flow-desc">三个主要市场规则不同，沙利文主要参与<strong>港股和A股</strong>项目，原因是这两个市场对独立行业报告的要求更明确。</div>
+            <div style="margin-top:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+              <table style="width:100%;border-collapse:collapse;font-size:12px;">
+                <thead>
+                  <tr style="background:var(--c4l);">
+                    <th style="padding:8px 12px;text-align:left;color:var(--c4);font-weight:500;border-bottom:1px solid var(--border);width:18%"></th>
+                    <th style="padding:8px 12px;text-align:left;color:var(--c4);font-weight:500;border-bottom:1px solid var(--border);width:27%">🇭🇰 港股 HKEX</th>
+                    <th style="padding:8px 12px;text-align:left;color:var(--c4);font-weight:500;border-bottom:1px solid var(--border);width:27%">🇨🇳 A股 上交所/深交所</th>
+                    <th style="padding:8px 12px;text-align:left;color:var(--c4);font-weight:500;border-bottom:1px solid var(--border);width:28%">🇺🇸 美股 NYSE/NASDAQ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="background:var(--white);">
+                    <td style="padding:7px 12px;color:var(--text-muted);border-bottom:1px solid var(--border-light);font-weight:500;font-size:11px;">监管机构</td>
+                    <td style="padding:7px 12px;color:var(--text-muted);border-bottom:1px solid var(--border-light);">香港证监会 + 港交所</td>
+                    <td style="padding:7px 12px;color:var(--text-muted);border-bottom:1px solid var(--border-light);">中国证监会</td>
+                    <td style="padding:7px 12px;color:var(--text-muted);border-bottom:1px solid var(--border-light);">SEC（美国证券交易委员会）</td>
+                  </tr>
+                  <tr style="background:#fafafa;">
+                    <td style="padding:7px 12px;color:var(--text-muted);border-bottom:1px solid var(--border-light);font-weight:500;font-size:11px;">上市周期</td>
+                    <td style="padding:7px 12px;color:var(--text-muted);border-bottom:1px solid var(--border-light);">约 6 个月</td>
+                    <td style="padding:7px 12px;color:var(--text-muted);border-bottom:1px solid var(--border-light);">2–3 年（审核制，周期长）</td>
+                    <td style="padding:7px 12px;color:var(--text-muted);border-bottom:1px solid var(--border-light);">5–7 个月</td>
+                  </tr>
+                  <tr style="background:var(--white);">
+                    <td style="padding:7px 12px;color:var(--text-muted);border-bottom:1px solid var(--border-light);font-weight:500;font-size:11px;">行业报告要求</td>
+                    <td style="padding:7px 12px;border-bottom:1px solid var(--border-light);"><span style="color:#c0392b;font-weight:500;">强制要求</span>独立第三方行业报告，验证律师逐条核实每个数据来源 → <span style="color:var(--c4);font-weight:500;">沙利文主要业务来源</span></td>
+                    <td style="padding:7px 12px;color:var(--text-muted);border-bottom:1px solid var(--border-light);">需要行业分析，但要求相对灵活</td>
+                    <td style="padding:7px 12px;color:var(--text-muted);border-bottom:1px solid var(--border-light);">以财务披露为主，行业报告要求<span style="color:#888">较少</span></td>
+                  </tr>
+                  <tr style="background:#fafafa;">
+                    <td style="padding:7px 12px;color:var(--text-muted);border-bottom:1px solid var(--border-light);font-weight:500;font-size:11px;">盈利要求</td>
+                    <td style="padding:7px 12px;color:var(--text-muted);border-bottom:1px solid var(--border-light);">灵活，18A章允许未盈利生物科技企业上市</td>
+                    <td style="padding:7px 12px;color:var(--text-muted);border-bottom:1px solid var(--border-light);">相对严格，需要盈利记录</td>
+                    <td style="padding:7px 12px;color:var(--text-muted);border-bottom:1px solid var(--border-light);">灵活，更看重未来盈利能力</td>
+                  </tr>
+                  <tr style="background:var(--white);">
+                    <td style="padding:7px 12px;color:var(--text-muted);font-weight:500;font-size:11px;">适合企业</td>
+                    <td style="padding:7px 12px;color:var(--text-muted);">生物医药、科技、创新型企业</td>
+                    <td style="padding:7px 12px;color:var(--text-muted);">消费、制造、内需型企业</td>
+                    <td style="padding:7px 12px;color:var(--text-muted);">科技、生物医药、全球化企业</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="flow-tag" style="margin-top:8px">沙利文主做港股 → 因为港股强制要求独立行业报告，需求最明确</div>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-left"><div class="flow-circle fc1">2</div><div class="flow-line"></div></div>
+          <div class="flow-body">
+            <div class="flow-title">组建中介机构团队</div>
+            <div class="flow-desc">这是关键一步，各方分工明确：</div>
+            <div class="role-grid" style="margin-top:8px">
+              <div class="role-card">
+                <div class="role-name" style="color:var(--c4)">投行（承销商）</div>
+                <div class="role-desc">项目总负责，协调所有中介，设计发行方案，路演找投资者。是小甲方，指挥其他机构</div>
+              </div>
+              <div class="role-card">
+                <div class="role-name" style="color:var(--c4)">撰写律师</div>
+                <div class="role-desc">撰写招股书的法律文本，确保合规表达</div>
+              </div>
+              <div class="role-card">
+                <div class="role-name" style="color:var(--c4)">验证律师</div>
+                <div class="role-desc">核实招股书里每一句话是否真实有据，<strong>包括行业数据是否有来源</strong>→ 这就是为什么需要沙利文</div>
+              </div>
+              <div class="role-card">
+                <div class="role-name" style="color:var(--c4)">审计机构</div>
+                <div class="role-desc">核实公司财务信息的真实性，出具审计报告</div>
+              </div>
+            </div>
+            <div class="flow-tag">沙利文 = 行业顾问，受投行委托</div>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-left"><div class="flow-circle fc1">3</div><div class="flow-line"></div></div>
+          <div class="flow-body">
+            <div class="flow-title">撰写招股书（Prospectus）</div>
+            <div class="flow-desc">招股书包含多个章节，沙利文负责其中的<strong>行业概览（Industry Overview）</strong>章节，以及部分公司有ESG章节。港股要求行业章节必须有独立第三方数据支持。</div>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-left"><div class="flow-circle fc1">4</div><div class="flow-line"></div></div>
+          <div class="flow-body">
+            <div class="flow-title">监管审查（向交易所提交申请）</div>
+            <div class="flow-desc">港交所/证监会等监管机构会就招股书内容提问（问询），包括行业数据的来源和逻辑。沙利文需要配合回答监管问询，确保行业数据经得起审查</div>
+          </div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-left"><div class="flow-circle fc1">5</div></div>
+          <div class="flow-body" style="padding-bottom:0">
+            <div class="flow-title">通过审批 → 路演 → 定价 → 上市</div>
+            <div class="flow-desc">沙利文的主要工作在步骤3-4，行业报告写好并经验证律师核实后，任务基本完成</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="div"></div>
+
+      <div class="say">
+        <div class="say-lbl">🗣 面试里怎么说</div>
+        "我理解沙利文在IPO里主要是作为行业顾问，受投行委托撰写招股书里的行业概览章节。这个章节要告诉投资者这家公司所在的行业有多大、增速怎样、竞争格局如何、公司在行业里处于什么位置。验证律师会核实行业报告里每一个数据是否有来源，所以沙利文的数据必须准确、有据可查。港股的IPO项目里这个要求特别严格。"
+      </div>
+
+      <div class="hook">
+        <div class="hook-lbl">🧲 记忆钩子</div>
+        <div class="hook-c"><span class="hi">投行</span>是总指挥 → <span class="hi">沙利文</span>写行业章节 → <span class="hi">验证律师</span>核实每个数据</div>
+        <div class="hook-s">沙利文的价值：让监管和投资者相信"这个行业数据是真的"<br>没有沙利文的数据，验证律师没法核实，招股书就过不了关</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ REPORT ══ -->
+<div class="sec" id="report">
+  <div class="sh">
+    <div class="se se4">沙利文核心业务 · 02</div>
+    <div class="st">行业报告结构 · 7要素</div>
+    <div class="sd">这是沙利文分析师写行业报告的标准框架，也是面试里"如何做行业研究"这个问题的标准答案。</div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="badge b4">7要素</span><div><div class="card-title">行业报告的完整结构</div><div class="card-sub">从定义到竞争格局，缺一不可</div></div></div>
+    <div class="card-b">
+      <div class="when">💡 <span><strong>什么时候用：</strong>面试官问"如果让你做一份行业报告，你会怎么写？" / "你在国药/IQVIA是怎么做行业研究的？"</span></div>
+
+      <div class="fw-lbl">7个要素（按顺序）</div>
+      <div class="rs-items">
+        <div class="rs">
+          <div class="rs-num">01</div>
+          <div class="rs-text">
+            <strong>定义 Definition</strong>
+            <span class="sub">这个行业/产品是什么？服务还是产品？给一个完全不了解的人看得懂的定义。例：新能源汽车是指以电力、氢能等非传统燃料为动力来源的汽车。</span>
+          </div>
+        </div>
+        <div class="rs">
+          <div class="rs-num">02</div>
+          <div class="rs-text">
+            <strong>细分分类 Classification</strong>
+            <span class="sub">这个行业怎么分类？有哪些子赛道？例：新能源汽车分纯电动（BEV）、插电混动（PHEV）、氢燃料电池（FCEV）。</span>
+          </div>
+        </div>
+        <div class="rs">
+          <div class="rs-num">03</div>
+          <div class="rs-text">
+            <strong>产业链 Value Chain</strong>
+            <span class="sub">从上游到下游是什么样子的？告诉读者这个行业的完整生态。例：新能源汽车 → 上游（锂矿/钴矿原材料）→ 中游（电芯/电池组/整车组装）→ 下游（经销商/终端消费者）</span>
+          </div>
+        </div>
+        <div class="rs">
+          <div class="rs-num">04</div>
+          <div class="rs-text">
+            <strong>市场规模 Market Size</strong>
+            <span class="sub">现在市场容量是多少？用定量数据说话。需要搭建测算模型，对历史和未来规模做预测。这是报告里最核心的部分之一。</span>
+          </div>
+        </div>
+        <div class="rs">
+          <div class="rs-num">05</div>
+          <div class="rs-text">
+            <strong>驱动因素 Drivers</strong>
+            <span class="sub">内在驱动：技术进步、需求增长、成本下降。外在驱动：政策支持、人口变化、社会趋势。例：GLP-1市场增长驱动 = 肥胖率上升（内在）+ 国家鼓励慢病管理政策（外在）</span>
+          </div>
+        </div>
+        <div class="rs">
+          <div class="rs-num">06</div>
+          <div class="rs-text">
+            <strong>未来趋势 Trends</strong>
+            <span class="sub">这个行业接下来会往哪里走？技术方向、商业模式变化、新进入者。这部分需要定性分析，结合驱动因素做判断。</span>
+          </div>
+        </div>
+        <div class="rs">
+          <div class="rs-num">07</div>
+          <div class="rs-text">
+            <strong>竞争格局 Competitive Landscape</strong>
+            <span class="sub">主要player有谁？市场份额排名？我们标记的公司在哪个维度有优势？进入壁垒是什么？护城河在哪里？</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="div"></div>
+
+      <div class="ex">
+        <div class="ex-lbl">🧪 真实例子 · 用GLP-1减肥药套7要素</div>
+        <div class="ex-steps">
+          <div class="exs"><span class="esk ek4">01定义</span><span>GLP-1受体激动剂是一类模拟人体肠促胰素的药物，通过降低食欲和延缓胃排空来实现降糖和减重效果</span></div>
+          <div class="exs"><span class="esk ek4">02分类</span><span>按结构分：短效（利拉鲁肽）vs 长效（司美格鲁肽）；按给药方式：注射 vs 口服片剂</span></div>
+          <div class="exs"><span class="esk ek4">03价值链</span><span>上游（原料药/多肽合成）→ 中游（制剂生产/笔式注射器）→ 下游（医院内分泌科/DTP药房/患者）</span></div>
+          <div class="exs"><span class="esk ek4">04规模</span><span>中国GLP-1市场2023年约XX亿元，预计2028年达到XXX亿元，CAGR约30%+</span></div>
+          <div class="exs"><span class="esk ek4">05驱动</span><span>内在：中国肥胖率持续上升，2型糖尿病患者超1.4亿；外在：慢病管理政策支持，医保可能纳入谈判</span></div>
+          <div class="exs"><span class="esk ek4">06趋势</span><span>口服剂型突破（提升患者依从性）；国内仿制药跟进；适应症扩展至心血管、肾病</span></div>
+          <div class="exs"><span class="esk ek4">07竞争</span><span>诺和诺德（市场领先）、礼来（替尔泊肽后来居上）、国内恒瑞/信达等在研；壁垒在于多肽合成技术和临床数据积累</span></div>
+        </div>
+      </div>
+
+      <div class="say">
+        <div class="say-lbl">🗣 面试里怎么说</div>
+        "沙利文的行业报告通常按照七个要素来写：先给行业一个清楚的定义和分类，让完全不了解的读者能看懂；然后梳理产业链，从上游到下游；再做市场规模测算；分析内外部驱动因素；判断未来趋势；最后做竞争格局分析，包括主要player的排名和进入壁垒。这个结构保证报告既全面又有逻辑。"
+      </div>
+
+      <div class="hook">
+        <div class="hook-lbl">🧲 记忆钩子</div>
+        <div class="hook-c"><span class="hi">定义→分类→链条→规模→驱动→趋势→竞争</span></div>
+        <div class="hook-s">
+          像介绍一个人：他是谁（定义）→ 有几种类型（分类）→ 他的家庭关系（产业链）<br>
+          → 他有多少钱（规模）→ 为什么成功（驱动）→ 未来怎样（趋势）→ 他的对手是谁（竞争）
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MARKET SIZE ══ -->
+<div class="sec" id="market">
+  <div class="sh">
+    <div class="se se4">沙利文核心业务 · 03</div>
+    <div class="st">市场规模测算 · 方法论</div>
+    <div class="sd">市场规模是行业报告最核心的部分，沙利文分析师必须掌握两种测算方法：自上而下和自下而上。</div>
+  </div>
+
+  <div class="card">
+    <div class="card-h"><span class="badge b4">测算方法</span><div><div class="card-title">两种方法 · 互相验证</div><div class="card-sub">核心公式：市场规模 = 销量 × 价格</div></div></div>
+    <div class="card-b">
+      <div class="when">💡 <span><strong>核心公式记住：</strong>所有市场规模 = <strong>销量 × 价格</strong>。两种方法都是为了算出这两个数字。</span></div>
+
+      <div class="fw-lbl">方法一：自上而下 Top-Down</div>
+      <div class="items">
+        <div class="item i4">
+          <div class="ik k4">概念</div>
+          <div class="ic">从已有的大数据出发，逐步拆解到目标市场。<br><span class="sub">适合：有官方公开数据、市场边界清晰的行业</span></div>
+        </div>
+        <div class="item i4">
+          <div class="ik k4">步骤</div>
+          <div class="ic">找到大的已知数据（行业总规模/GDP/人口）→ 按比例拆解到目标细分市场<br><span class="sub">例：中国药品总市场2万亿 × GLP-1占比X% = GLP-1市场规模</span></div>
+        </div>
+      </div>
+
+      <div class="fw-lbl" style="margin-top:14px">方法二：自下而上 Bottom-Up</div>
+      <div class="items">
+        <div class="item i4">
+          <div class="ik k4">概念</div>
+          <div class="ic">从最小单位开始估算，逐步累加到市场总规模。<br><span class="sub">适合：没有公开总量数据、需要自己构建逻辑的市场</span></div>
+        </div>
+        <div class="item i4">
+          <div class="ik k4">步骤</div>
+          <div class="ic">找到基础单位（每天用量/每个患者花费）→ 乘以使用人数 → 乘以时间<br><span class="sub">公式：使用人口 × 人均年用量 × 单价 = 市场规模</span></div>
+        </div>
+      </div>
+
+      <div class="div"></div>
+
+      <div class="ex">
+        <div class="ex-lbl">🧪 老师举的例子 · 胰岛素市场测算（自下而上）</div>
+        <div class="ex-steps">
+          <div class="exs"><span class="esk ek4">已知</span><span>一天有10,000人使用胰岛素，每人每天用150克，一克胰岛素的价格是X元</span></div>
+          <div class="exs"><span class="esk ek4">算法</span><span>10,000人 × 150克/人/天 × 365天 × 每克价格 = 年市场规模</span></div>
+          <div class="exs"><span class="esk ek4">逻辑</span><span>这就是"销量（10000×150×365）× 价格（每克X元）= 市场规模"的具体体现</span></div>
+        </div>
+        <div class="res"><span class="arr">→</span>自下而上的关键：找到最小可观测单位（每天每人的用量），然后往上乘</div>
+      </div>
+
+      <div class="ex">
+        <div class="ex-lbl">🧪 你做过的例子 · GLP-1减肥药市场（自下而上）</div>
+        <div class="ex-steps">
+          <div class="exs"><span class="esk ek4">使用人口</span><span>中国成年人10.5亿 × 肥胖率50% × 愿意用药10% × 能负担20% ≈ 1050万人</span></div>
+          <div class="exs"><span class="esk ek4">人均年花费</span><span>司美格鲁肽约800-1000元/月 × 12个月 ≈ 10,000元/年</span></div>
+          <div class="exs"><span class="esk ek4">市场规模</span><span>1050万人 × 10,000元 = <strong>约1050亿元</strong></span></div>
+        </div>
+        <div class="res"><span class="arr">→</span>和自上而下的结果互相验证，如果差距太大，需要重新检查假设</div>
+      </div>
+
+      <div class="fw-lbl" style="margin-top:16px">数据来源分类（面试必说）</div>
+      <div class="role-grid">
+        <div class="role-card">
+          <div class="role-name" style="color:var(--c4)">一手数据（Primary）</div>
+          <div class="role-desc">• 专家访谈<br>• 问卷调查<br>• 企业调研<br>• 政府/监管机构直接提供</div>
+        </div>
+        <div class="role-card">
+          <div class="role-name" style="color:var(--c4)">二手数据（Secondary）</div>
+          <div class="role-desc">• 三方研究机构（IQVIA/艾美仕）<br>• 券商研报<br>• 上市公司年报<br>• 官方机构数据（国家统计局/卫健委）</div>
+        </div>
+      </div>
+
+      <div class="say">
+        <div class="say-lbl">🗣 面试里怎么说</div>
+        "市场规模测算的核心公式是销量乘以价格。具体有两种方法：自上而下是从公开的大数据出发，按比例拆解到目标市场；自下而上是从最小单位开始累加，比如每个患者每年的花费乘以总患者数。两种方法最好都做，互相验证，如果结果差距很大，就要检查哪个假设出了问题。数据来源上，我会优先用官方机构的一手数据，再结合IQVIA这类三方机构的二手数据。"
+      </div>
+
+      <div class="hook">
+        <div class="hook-lbl">🧲 记忆钩子</div>
+        <div class="hook-c">所有市场规模 = <span class="hi">销量 × 价格</span><br>自上而下 = <span class="hi">大数据拆小</span>　自下而上 = <span class="hi">小单位累加</span></div>
+        <div class="hook-s">
+          自上而下：像切蛋糕，从整块切到你要的那一块<br>
+          自下而上：像堆积木，从最小的一块开始往上堆
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TAM ══ -->
+<div class="sec" id="tam">
+  <div class="sh">
+    <div class="se se1">市场分析类 · 01</div>
+    <div class="st">TAM · 市场规模估算</div>
+    <div class="sd">用人群漏斗法快速估算一个医药市场的规模，面试即兴估算题必用框架。</div>
+  </div>
+  <div class="card">
+    <div class="card-h"><span class="badge b1">TAM</span><div><div class="card-title">人群漏斗法</div><div class="card-sub">自上而下，一步步缩小到真实市场</div></div></div>
+    <div class="card-b">
+      <div class="when">💡 <span><strong>什么时候用：</strong>面试官让你当场估算"某个药品/疾病市场有多大"</span></div>
+      <div class="fw-lbl">框架结构</div>
+      <div class="items">
+        <div class="item i1"><div class="ik k1">①</div><div class="ic"><strong>总人口基数</strong><span class="sub">从全国人口出发，按年龄/地域缩小</span></div></div>
+        <div class="item i1"><div class="ik k1">②</div><div class="ic"><strong>患病率</strong><span class="sub">这个病在人群里有多少比例</span></div></div>
+        <div class="item i1"><div class="ik k1">③</div><div class="ic"><strong>诊断率/意愿率</strong><span class="sub">实际会去就诊或愿意用药的比例（往往远低于患病率）</span></div></div>
+        <div class="item i1"><div class="ik k1">④</div><div class="ic"><strong>药物使用率/支付能力</strong><span class="sub">真正会用药且能负担的比例</span></div></div>
+        <div class="item i1"><div class="ik k1">⑤</div><div class="ic"><strong>人均年花费</strong><span class="sub">每个患者每年花多少钱</span></div></div>
+      </div>
+      <div class="div"></div>
+      <div class="ex">
+        <div class="ex-lbl">🧪 真实例子 · GLP-1减肥药（你做过）</div>
+        <div class="ex-steps">
+          <div class="exs"><span class="esk ek1">①</span><span>成年人约10.5亿</span></div>
+          <div class="exs"><span class="esk ek1">②</span><span>超重肥胖率50% → 5.25亿</span></div>
+          <div class="exs"><span class="esk ek1">③</span><span>愿意用药物干预10%（大多选择节食运动）→ 5250万</span></div>
+          <div class="exs"><span class="esk ek1">④</span><span>能负担GLP-1价格20%（未进医保，月花800-1000元）→ 1050万</span></div>
+          <div class="exs"><span class="esk ek1">⑤</span><span>人均年花费约10,000元</span></div>
+        </div>
+        <div class="res"><span class="arr">→</span>市场规模约<strong>1050亿元</strong>。最大变量是医保政策，若纳入医保渗透率会大幅提升。</div>
+      </div>
+      <div class="hook">
+        <div class="hook-lbl">🧲 记忆钩子</div>
+        <div class="hook-c">人群<span class="hi">漏斗</span>——每一步都问：<span class="hi">"为什么会流失？"</span></div>
+        <div class="hook-s">总人口→患者→就诊→用药→能付费　每个箭头都有流失，流失的理由就是你的分析亮点</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DEEP ══ -->
+<div class="sec" id="deep">
+  <div class="sh">
+    <div class="se se1">市场分析类 · 02</div>
+    <div class="st">DEEP · 行业研究框架</div>
+    <div class="sd">四个维度全面分析一个医药行业，是"如何做行业研究"这个问题的结构化回答。</div>
+  </div>
+  <div class="card">
+    <div class="card-h"><span class="badge b1">DEEP</span><div><div class="card-title">需求→生态→环境→预测</div><div class="card-sub">像看一部电影：背景→角色→冲突→结局</div></div></div>
+    <div class="card-b">
+      <div class="when">💡 <span><strong>什么时候用：</strong>"如果让你研究X行业，框架是什么？" / "你在国药怎么做行业研究的？"</span></div>
+      <div class="items">
+        <div class="item i1"><div class="ik k1">D</div><div class="ic"><strong>Demand · 需求端</strong><span class="sub">患者数量、疾病负担、未满足需求 → 为什么这个市场存在？</span></div></div>
+        <div class="item i1"><div class="ik k1">E</div><div class="ic"><strong>Ecosystem · 生态端</strong><span class="sub">代表企业、产品管线、技术平台 → 谁在做？做到什么程度？</span></div></div>
+        <div class="item i1"><div class="ik k1">E</div><div class="ic"><strong>Environment · 环境端</strong><span class="sub">政策、支付体系、监管趋势 → 有什么障碍和推动力？</span></div></div>
+        <div class="item i1"><div class="ik k1">P</div><div class="ic"><strong>Prediction · 预测端</strong><span class="sub">市场规模、增长驱动、未来趋势 → 以后怎么走？</span></div></div>
+      </div>
+      <div class="div"></div>
+      <div class="ex">
+        <div class="ex-lbl">🧪 真实例子 · 医药大模型应用（你在国药做过）</div>
+        <div class="ex-steps">
+          <div class="exs"><span class="esk ek1">D</span><span><strong>需求：</strong>研发成本高（平均10亿美元/10年）、数据处理量大、监管文件繁琐</span></div>
+          <div class="exs"><span class="esk ek1">E</span><span><strong>生态：</strong>Pfizer×AWS PACT、恒瑞DeepSeek-R1、复星PharmAID；大部分还在试点阶段</span></div>
+          <div class="exs"><span class="esk ek1">E</span><span><strong>环境：</strong>医药数据合规要求高；数据质量参差不齐；监管对AI辅助决策标准不明确</span></div>
+          <div class="exs"><span class="esk ek1">P</span><span><strong>预测：</strong>先从低风险场景渗透（文献总结、报告生成），再进入高风险场景（临床决策）</span></div>
+        </div>
+      </div>
+      <div class="hook">
+        <div class="hook-lbl">🧲 记忆钩子</div>
+        <div class="hook-c"><span class="hi">为什么需要</span> → <span class="hi">谁在做</span> → <span class="hi">有什么问题</span> → <span class="hi">以后怎样</span></div>
+        <div class="hook-s">D=需求　E=生态　E=环境　P=预测　就像看电影：背景→角色→冲突→结局</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 3C+1R ══ -->
+<div class="sec" id="c3r">
+  <div class="sh">
+    <div class="se se1">市场分析类 · 03</div>
+    <div class="st">3C+1R · 竞争格局分析</div>
+    <div class="sd">由内到外分析一个市场的竞争关系，适合被问到"这个市场竞争格局如何"。</div>
+  </div>
+  <div class="card">
+    <div class="card-h"><span class="badge b1">3C+1R</span><div><div class="card-title">自己→对手→客户→政策</div><div class="card-sub">由内到外，像往外扔石头产生的涟漪</div></div></div>
+    <div class="card-b">
+      <div class="items">
+        <div class="item i1"><div class="ik k1">C1</div><div class="ic"><strong>Company · 自身</strong><span class="sub">产品管线、技术平台、商业化能力、财务状况</span></div></div>
+        <div class="item i1"><div class="ik k1">C2</div><div class="ic"><strong>Competitor · 竞争者</strong><span class="sub">直接竞争（同适应症）、间接竞争（替代疗法）、潜在竞争（在研管线）</span></div></div>
+        <div class="item i1"><div class="ik k1">C3</div><div class="ic"><strong>Customer · 客户</strong><span class="sub">医生用药习惯、患者支付能力、医院准入壁垒</span></div></div>
+        <div class="item i1"><div class="ik k1">1R</div><div class="ic"><strong>Regulation · 监管</strong><span class="sub">审批进度、医保谈判、集采影响</span></div></div>
+      </div>
+      <div class="ex">
+        <div class="ex-lbl">🧪 真实例子 · GLP-1减肥药竞争格局</div>
+        <div class="ex-steps">
+          <div class="exs"><span class="esk ek1">C1</span><span>国内仿制药企：GLP-1管线在临床二期，渠道以医院为主，院外弱，资金有限</span></div>
+          <div class="exs"><span class="esk ek1">C2</span><span>直接：诺和诺德+礼来；间接：OTC减肥药；潜在：恒瑞、信达在研产品</span></div>
+          <div class="exs"><span class="esk ek1">C3</span><span>医生担心副作用需教育；患者价格敏感；医院进院门槛高</span></div>
+          <div class="exs"><span class="esk ek1">1R</span><span>目前自费市场；线上销售收紧；最大变量是医保谈判</span></div>
+        </div>
+      </div>
+      <div class="hook">
+        <div class="hook-lbl">🧲 记忆钩子</div>
+        <div class="hook-c"><span class="hi">自己</span> → <span class="hi">对手</span> → <span class="hi">客户</span> → <span class="hi">政策</span></div>
+        <div class="hook-s">由内到外，先看自己站在哪，再看周围的人，最后看大环境</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ATM ══ -->
+<div class="sec" id="atm">
+  <div class="sh">
+    <div class="se se2">战略决策类 · 01</div>
+    <div class="st">ATM · 市场进入判断</div>
+    <div class="sd">判断一家公司应不应该进入某个新市场，三个问题像红绿灯，答案决定要不要进。</div>
+  </div>
+  <div class="card">
+    <div class="card-h"><span class="badge b2">ATM</span><div><div class="card-title">市场好不好 → 门槛高不高 → 我行不行</div></div></div>
+    <div class="card-b">
+      <div class="items">
+        <div class="item i2"><div class="ik k2">A</div><div class="ic"><strong>Attractiveness · 市场吸引力</strong><span class="sub">规模多大？增速多快？利润空间如何？</span></div></div>
+        <div class="item i2"><div class="ik k2">T</div><div class="ic"><strong>Toughness · 进入难度</strong><span class="sub">技术/资金/渠道门槛多高？竞争对手有多强？</span></div></div>
+        <div class="item i2"><div class="ik k2">M</div><div class="ic"><strong>Match · 自身匹配度</strong><span class="sub">公司有没有相关技术、渠道、资金？</span></div></div>
+      </div>
+      <div class="ex">
+        <div class="ex-lbl">🧪 真实例子 · 某传统仿制药企业要不要做CAR-T</div>
+        <div class="ex-steps">
+          <div class="exs"><span class="esk ek2">A ✅</span><span>单次治疗120万元，增速15-20%/年，利润空间大</span></div>
+          <div class="exs"><span class="esk ek2">T ❌</span><span>技术壁垒极高；需要数十亿投入；复星凯特/药明巨诺已占先发优势</span></div>
+          <div class="exs"><span class="esk ek2">M ❌</span><span>无细胞治疗平台；无相关医院渠道；资金有限</span></div>
+        </div>
+        <div class="res"><span class="arr">→</span>不直接自研。建议：收购/授权有技术的小公司，或先从配套服务（检测、冷链）切入</div>
+      </div>
+      <div class="hook">
+        <div class="hook-lbl">🧲 记忆钩子</div>
+        <div class="hook-c"><span class="hi">市场好不好</span> → <span class="hi">门槛高不高</span> → <span class="hi">我行不行</span></div>
+        <div class="hook-s">像去餐厅打工：这家店生意好不好（A）→ 进去要求高不高（T）→ 我有没有这个本事（M）</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PSIA ══ -->
+<div class="sec" id="psia">
+  <div class="sh">
+    <div class="se se2">战略决策类 · 02</div>
+    <div class="st">PSIA · 政策影响分析</div>
+    <div class="sd">Healthcare特有框架，集采/医保/审批政策是中国医药行业面试的必考点。</div>
+  </div>
+  <div class="card">
+    <div class="card-h"><span class="badge b2">PSIA</span><div><div class="card-title">政策→谁受影响→短长期→应对</div><div class="card-sub">像剥洋葱，从政策内容到企业应对</div></div></div>
+    <div class="card-b">
+      <div class="items">
+        <div class="item i2"><div class="ik k2">P</div><div class="ic"><strong>Policy · 政策内容</strong><span class="sub">具体是什么政策？核心机制？覆盖哪些产品？</span></div></div>
+        <div class="item i2"><div class="ik k2">S</div><div class="ic"><strong>Stakeholders · 利益相关方</strong><span class="sub">对原研药/仿制药/医院/患者各有什么影响？</span></div></div>
+        <div class="item i2"><div class="ik k2">I</div><div class="ic"><strong>Impact · 短期vs长期</strong><span class="sub">短期：价格/销量变化；长期：行业格局/创新动力</span></div></div>
+        <div class="item i2"><div class="ik k2">A</div><div class="ic"><strong>Adaptation · 企业应对</strong><span class="sub">不同类型企业的转型策略</span></div></div>
+      </div>
+      <div class="ex">
+        <div class="ex-lbl">🧪 真实例子 · 集采政策影响</div>
+        <div class="ex-steps">
+          <div class="exs"><span class="esk ek2">P</span><span>国家集采，"以价换量"，降幅可达90%，覆盖专利到期仿制药</span></div>
+          <div class="exs"><span class="esk ek2">S</span><span>原研药（辉瑞）利润压缩；仿制药（华海）中标放量；患者药价下降 ✅</span></div>
+          <div class="exs"><span class="esk ek2">I</span><span>短期价格断崖；长期行业整合加速，倒逼创新药转型</span></div>
+          <div class="exs"><span class="esk ek2">A</span><span>原研→院外渠道+创新药；仿制→规模化降本+转型；恒瑞是典型</span></div>
+        </div>
+        <div class="res"><span class="arr">→</span>集采短期是价格战，长期是在倒逼中国医药行业从"仿制"向"创新"升级</div>
+      </div>
+      <div class="hook">
+        <div class="hook-lbl">🧲 记忆钩子</div>
+        <div class="hook-c"><span class="hi">政策是什么</span> → <span class="hi">谁受影响</span> → <span class="hi">短期/长期</span> → <span class="hi">怎么应对</span></div>
+        <div class="hook-s">像台风来了：台风级别（P）→ 哪些地区受影响（S）→ 今明后天各怎样（I）→ 大家怎么避险（A）</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SWOT ══ -->
+<div class="sec" id="swot">
+  <div class="sh">
+    <div class="se se2">战略决策类 · 03</div>
+    <div class="st">SWOT · 整体方向判断</div>
+    <div class="sd">分析一家公司或产品的整体竞争地位，用S抓O，用S抵T，补W追O。</div>
+  </div>
+  <div class="card">
+    <div class="card-h"><span class="badge b2">SWOT</span><div><div class="card-title">内部优劣 + 外部机会威胁</div></div></div>
+    <div class="card-b">
+      <div class="items">
+        <div class="item i2"><div class="ik k2">S</div><div class="ic"><strong>Strengths · 优势（内部）</strong><span class="sub">技术/产品/资金/品牌——自己有什么别人没有的</span></div></div>
+        <div class="item i2"><div class="ik k2">W</div><div class="ic"><strong>Weaknesses · 劣势（内部）</strong><span class="sub">自身短板——别人有但自己缺的</span></div></div>
+        <div class="item i2"><div class="ik k2">O</div><div class="ic"><strong>Opportunities · 机会（外部）</strong><span class="sub">政策利好/新需求/竞争对手失误</span></div></div>
+        <div class="item i2"><div class="ik k2">T</div><div class="ic"><strong>Threats · 威胁（外部）</strong><span class="sub">新竞争/政策收紧/替代技术</span></div></div>
+      </div>
+      <div class="ex">
+        <div class="ex-lbl">🧪 真实例子 · 恒瑞医药SWOT</div>
+        <div class="ex-steps">
+          <div class="exs"><span class="esk ek2">S</span><span>国内最强创新药研发团队；丰富仿制药基础和现金流；全国销售渠道覆盖</span></div>
+          <div class="exs"><span class="esk ek2">W</span><span>仿制药收入被集采压缩；创新药出海经验不足</span></div>
+          <div class="exs"><span class="esk ek2">O</span><span>国内创新药审批加速；医保谈判给优质创新药快速放量机会</span></div>
+          <div class="exs"><span class="esk ek2">T</span><span>集采持续扩大；跨国药企加大在华布局；国内biotech竞争加剧</span></div>
+        </div>
+        <div class="res"><span class="arr">→</span>核心战略：用仿制药现金流支撑创新药研发，同时加速推进创新药出海</div>
+      </div>
+      <div class="hook">
+        <div class="hook-lbl">🧲 记忆钩子</div>
+        <div class="hook-c"><span class="hi">内部</span>看优劣，<span class="hi">外部</span>看机会和威胁</div>
+        <div class="hook-s">S/W是自己能控制的 → O/T是外部不能完全控制的<br>用S抓O（用优势抓机会）→ 用S抵T（用优势对抗威胁）→ 补W追O（补短板抓机会）</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 4P ══ -->
+<div class="sec" id="4p">
+  <div class="sh">
+    <div class="se se3">医药营销类 · 01</div>
+    <div class="st">4P · 医药营销执行</div>
+    <div class="sd">医药行业的4P有特殊侧重，产品和价格受监管约束，真正的差异化在渠道和推广。</div>
+  </div>
+  <div class="card">
+    <div class="card-h"><span class="badge b3">4P</span><div><div class="card-title">产品→价格→渠道→推广</div><div class="card-sub">⭐ 医药重点在 Place + Promotion</div></div></div>
+    <div class="card-b">
+      <div class="items">
+        <div class="item i3"><div class="ik k3">P1</div><div class="ic"><strong>Product · 产品</strong><span class="sub">适应症差异化、剂型选择、品牌定位、配套患者服务</span></div></div>
+        <div class="item i3"><div class="ik k3">P2</div><div class="ic"><strong>Price · 价格</strong><span class="sub">定价策略、医保谈判/集采参与、创新支付方式、患者援助项目</span></div></div>
+        <div class="item i3"><div class="ik k3">P3⭐</div><div class="ic"><strong>Place · 渠道（医药重点）</strong><span class="sub">医院进院（学术推广）、DTP药房、线上电商、分级诊疗布局</span></div></div>
+        <div class="item i3"><div class="ik k3">P4⭐</div><div class="ic"><strong>Promotion · 推广（医药重点）</strong><span class="sub">学术推广（KOL医生）、患者教育、医学会议、数字化营销</span></div></div>
+      </div>
+      <div class="ex">
+        <div class="ex-lbl">🧪 真实例子 · 司美格鲁肽4P策略</div>
+        <div class="ex-steps">
+          <div class="exs"><span class="esk ek3">P1</span><span>强调"降糖+减重"双适应症；笔式注射器方便自用；定位高端医疗级减重</span></div>
+          <div class="exs"><span class="esk ek3">P2</span><span>目前未进医保，高价策略；推出患者援助项目；进医保谈判后价格会大幅下降换取放量</span></div>
+          <div class="exs"><span class="esk ek3">P3</span><span>主要通过医院内分泌科/减重门诊；DTP药房补充；重点布局一二线城市</span></div>
+          <div class="exs"><span class="esk ek3">P4</span><span>内分泌科KOL学术推广；患者副作用管理教育；社交媒体科普内容</span></div>
+        </div>
+        <div class="res"><span class="arr">→</span>医药4P核心挑战：产品和价格受监管约束，竞争差异在于渠道覆盖速度和医生教育深度</div>
+      </div>
+      <div class="hook">
+        <div class="hook-lbl">🧲 记忆钩子</div>
+        <div class="hook-c">医药4P：<span class="hi">产品和价格受约束</span>，<span class="hi">渠道和推广是关键</span></div>
+        <div class="hook-s">P1产品（适应症监管限定）→ P2价格（集采/医保决定）<br>P3渠道⭐（进院速度决胜）→ P4推广⭐（医生处方率决胜）</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+function S(id, btn, cls) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b => b.classList.remove('a1','a2','a3','a4'));
+  document.getElementById(id).classList.add('active');
+  if (btn) btn.classList.add(cls);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelector('.nb').classList.add('a1');
+</script>
+</body>
+</html>
+<!-- inject speak section via script -->
+<script>
+(function(){
+// Add nav button
+var navGrp = document.createElement('div');
+navGrp.className = 'nav-grp';
+navGrp.innerHTML = '<div class="nav-lbl" style="color:#c0392b">🗣 结构化表达</div><button class="nb" onclick="S(\'speak\',this,\'a5\')"><span class="nd" style="background:#c0392b"></span>开口表达 · 说清楚方法</button>';
+document.querySelector('.sidebar').appendChild(navGrp);
+
+// Add CSS
+var style = document.createElement('style');
+style.textContent = `
+.c5{color:#c0392b}.c5l{background:#fdf0ee}.c5m{background:#f5c0b8}
+.b5{background:#fdf0ee;color:#c0392b}
+.se5{color:#c0392b}
+.i5{background:#fdf0ee;border-color:#c0392b}
+.k5{color:#c0392b}
+.ek5{background:#f5c0b8;color:#c0392b}
+.nb.a5{background:#fdf0ee;color:#c0392b;font-weight:500}
+.d5{background:#c0392b}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.cmp-bad{padding:14px;background:#fff5f5;border:1px solid #ffcccc;border-radius:8px}
+.cmp-good{padding:14px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px}
+.cmp-lbl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-family:'DM Mono',monospace;margin-bottom:6px}
+.cmp-bad .cmp-lbl{color:#e53e3e}
+.cmp-good .cmp-lbl{color:#38a169}
+.cmp-text{font-size:13px;line-height:1.7;color:var(--text-muted)}
+.template-box{background:#1a1814;border-radius:10px;padding:18px 20px;margin-bottom:14px}
+.tpl-lbl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#888;font-family:'DM Mono',monospace;margin-bottom:10px}
+.tpl-text{font-size:14px;color:#f5f0e8;line-height:1.8;font-weight:500}
+.tpl-text .tpl-hi{color:#f0c060;font-weight:700}
+.tpl-text .tpl-blank{color:#7eb8a4;font-style:italic}
+.tpl-sub{margin-top:8px;font-size:12px;color:#666;line-height:1.6;font-family:'DM Mono',monospace}
+.practice-card{background:var(--white);border:1px solid var(--border);border-radius:10px;margin-bottom:14px;overflow:hidden}
+.pc-q{padding:14px 18px;background:#f8f6f2;border-bottom:1px solid var(--border);font-size:13.5px;font-weight:500;display:flex;align-items:center;gap:10px}
+.pc-q-badge{font-family:'DM Mono',monospace;font-size:10px;padding:2px 8px;border-radius:4px;background:#fdf0ee;color:#c0392b;flex-shrink:0}
+.pc-a{padding:14px 18px;font-size:13px;color:var(--text-muted);line-height:1.9}
+.pc-a .line1{color:var(--text);font-weight:500;margin-bottom:6px}
+.pc-a .rest{color:var(--text-muted)}
+.step-flow{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.sf-item{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;background:#fdf0ee;border-left:3px solid #c0392b;border-radius:6px}
+.sf-num{font-family:'DM Mono',monospace;font-size:12px;color:#c0392b;font-weight:500;flex-shrink:0;min-width:22px}
+.sf-content{font-size:13px;line-height:1.6}
+.sf-content strong{font-weight:500;display:block;margin-bottom:2px}
+.sf-content .sub{color:var(--text-muted);font-size:12px}
+`;
+document.head.appendChild(style);
+
+// Add section
+var sec = document.createElement('div');
+sec.className = 'sec';
+sec.id = 'speak';
+sec.innerHTML = `
+<div class="sh">
+  <div class="se se5">结构化表达 · 核心方法</div>
+  <div class="st">开口表达 · 说清楚的方法</div>
+  <div class="sd">专门针对"脑子有内容但说出来乱"的问题，核心是一个习惯：先说结论，再说细节。</div>
+</div>
+
+<!-- 根源分析 -->
+<div class="card">
+  <div class="card-h"><span class="badge b5">根源</span><div><div class="card-title">为什么会说完自己都觉得没说清楚？</div></div></div>
+  <div class="card-b">
+    <p style="font-size:14px;color:var(--text-muted);margin-bottom:16px;line-height:1.8">你说话的顺序是<strong style="color:var(--text)">细节→细节→细节</strong>，但对方需要的顺序是<strong style="color:var(--text)">结论→理由→例子</strong>。不是你不知道内容，而是出口的顺序反了。</p>
+    <div class="compare">
+      <div class="cmp-bad">
+        <div class="cmp-lbl">❌ 现在的方式</div>
+        <div class="cmp-text">脑子里冒出：大模型、报告、GLP-1、Excel、IQVIA……同时出现，不知道先说哪个，所以卡住，或者随便抓一个开始说，说完自己也不知道说了什么</div>
+      </div>
+      <div class="cmp-good">
+        <div class="cmp-lbl">✅ 目标方式</div>
+        <div class="cmp-text">先在脑子里过一遍：我要说几点？→ 开口说结论 → 再展开每一点。对方从第一句话就知道你要说什么，你自己也不会跑偏</div>
+      </div>
+    </div>
+    <div class="hook" style="background:var(--dark)">
+      <div class="hook-lbl">核心原则</div>
+      <div class="hook-c"><span class="hi">先说结论，再说细节。</span>不是背答案，是改变出口顺序。</div>
+      <div class="hook-s">中文有个习惯：把铺垫说很长，最后才说重点。面试要反过来：重点第一句说，铺垫放后面。</div>
+    </div>
+  </div>
+</div>
+
+<!-- 3秒法则 -->
+<div class="card">
+  <div class="card-h"><span class="badge b5">方法一</span><div><div class="card-title">开口前3秒 · 先在脑子里过一遍</div><div class="card-sub">解决"不知道第一句说什么"</div></div></div>
+  <div class="card-b">
+    <div class="when">💡 <span>听完问题之后，<strong>不要马上开口</strong>。先在脑子里用3秒过这三个问题，再开口。</span></div>
+    <div class="step-flow">
+      <div class="sf-item">
+        <div class="sf-num">①</div>
+        <div class="sf-content">
+          <strong>我的结论/答案是什么？</strong>
+          <span class="sub">用一句话说，不要想细节。例："我在国药主要做的是行业研究，核心是信息整理。"</span>
+        </div>
+      </div>
+      <div class="sf-item">
+        <div class="sf-num">②</div>
+        <div class="sf-content">
+          <strong>我能说几点来支撑这个结论？</strong>
+          <span class="sub">不要超过3点。心里数一下：1、2、3。例："可以从三个方向说：做了什么、学到什么、和这个岗位的关系。"</span>
+        </div>
+      </div>
+      <div class="sf-item">
+        <div class="sf-num">③</div>
+        <div class="sf-content">
+          <strong>开口说第一点</strong>
+          <span class="sub">不用想后面的，先说第一点。说完自然接第二点。</span>
+        </div>
+      </div>
+    </div>
+    <div class="template-box">
+      <div class="tpl-lbl">🧲 记忆钩子</div>
+      <div class="tpl-text">听完问题 → <span class="tpl-hi">3秒</span> → 结论是什么？几点？→ 开口</div>
+      <div class="tpl-sub">这3秒不是沉默，可以说"让我想一下"或者"好，我从几个角度来回答"买时间</div>
+    </div>
+  </div>
+</div>
+
+<!-- 万能开场句 -->
+<div class="card">
+  <div class="card-h"><span class="badge b5">方法二</span><div><div class="card-title">万能开场句 · 帮你把散信息挂上去</div><div class="card-sub">解决"说着说着就乱了"</div></div></div>
+  <div class="card-b">
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;line-height:1.7">这些句型的作用是：<strong style="color:var(--text)">先告诉对方你要说几点，逼着自己按顺序说完</strong>。说出"我从三个角度"之后，你自己也会逼着自己说出三个，不会跑偏。</p>
+
+    <div class="fw-lbl">通用开场句（任何问题都能用）</div>
+    <div class="items" style="margin-bottom:16px">
+      <div class="item i5">
+        <div class="ik k5">A</div>
+        <div class="ic">
+          <strong>分点型</strong>
+          <span class="sub">"我觉得这个问题可以从<span style="color:#c0392b">两/三个角度</span>来回答——第一个是…第二个是…"</span>
+        </div>
+      </div>
+      <div class="item i5">
+        <div class="ik k5">B</div>
+        <div class="ic">
+          <strong>结论先行型</strong>
+          <span class="sub">"简单来说，我的判断是<span style="color:#c0392b">XXX</span>。原因主要有两个……"</span>
+        </div>
+      </div>
+      <div class="item i5">
+        <div class="ik k5">C</div>
+        <div class="ic">
+          <strong>经历型（讲实习用）</strong>
+          <span class="sub">"我在XXX的工作主要分<span style="color:#c0392b">三个部分</span>——第一部分是…第二部分是…第三部分是…"</span>
+        </div>
+      </div>
+      <div class="item i5">
+        <div class="ik k5">D</div>
+        <div class="ic">
+          <strong>买时间型（脑子空白时用）</strong>
+          <span class="sub">"这是个很好的问题，让我想一下……我觉得最重要的一点是……"</span>
+        </div>
+      </div>
+      <div class="item i5">
+        <div class="ik k5">E</div>
+        <div class="ic">
+          <strong>确认型（没听清或题目太大时用）</strong>
+          <span class="sub">"您是想让我从<span style="color:#c0392b">XXX角度</span>来分析，还是更关注<span style="color:#c0392b">XXX方面</span>？"</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="template-box">
+      <div class="tpl-lbl">🧲 最重要的一句话</div>
+      <div class="tpl-text">任何问题，开口第一句都可以是：<br><span class="tpl-hi">"我从X个角度来回答这个问题——"</span></div>
+      <div class="tpl-sub">说出这句话之后，你的脑子会自动去找X个角度，不会空白</div>
+    </div>
+  </div>
+</div>
+
+<!-- PREP公式 -->
+<div class="card">
+  <div class="card-h"><span class="badge b5">方法三</span><div><div class="card-title">PREP公式 · 讲经历/讲观点都能用</div><div class="card-sub">结论→理由→例子→重申结论，四步说清楚一件事</div></div></div>
+  <div class="card-b">
+    <div class="when">💡 <span><strong>什么时候用：</strong>讲自己经历、表达观点、回答"你觉得…"类问题</span></div>
+    <div class="items">
+      <div class="item i5"><div class="ik k5">P</div><div class="ic"><strong>Point · 结论/观点</strong><span class="sub">先说你的答案是什么。一句话，直接说。</span></div></div>
+      <div class="item i5"><div class="ik k5">R</div><div class="ic"><strong>Reason · 理由</strong><span class="sub">为什么是这个结论？说1-2个理由。</span></div></div>
+      <div class="item i5"><div class="ik k5">E</div><div class="ic"><strong>Example · 例子</strong><span class="sub">用一个具体的经历或案例来支撑，让人信服。</span></div></div>
+      <div class="item i5"><div class="ik k5">P</div><div class="ic"><strong>Point · 重申结论</strong><span class="sub">最后一句话回到开头的结论，让人记住你说了什么。</span></div></div>
+    </div>
+
+    <div class="div"></div>
+
+    <div class="fw-lbl">套进你的真实经历</div>
+    <div class="practice-card">
+      <div class="pc-q"><span class="pc-q-badge">问题</span>你在国药实习最大的收获是什么？</div>
+      <div class="pc-a">
+        <div class="line1">P · 结论：最大的收获是学会了怎么从零开始研究一个陌生的医药主题。</div>
+        <div class="rest">
+          R · 理由：因为每次研究方向都不一样，比如大模型应用、GLP-1市场、互联网医疗，我没有现成的知识，必须自己建框架、找资料、整理逻辑。<br><br>
+          E · 例子：比如做医药大模型那个研究，我先把应用场景分成研发端、临床端、制造端、运营端四类，再分别找代表案例，最后判断哪些是真实落地的，哪些还在概念阶段。这个过程让我意识到AI的价值不是技术先进，而是能不能减少重复工作。<br><br>
+          P · 重申：所以对我来说，国药这段经历最核心的训练，就是快速理解一个新领域并把复杂信息整理清楚的能力。
+        </div>
+      </div>
+    </div>
+
+    <div class="practice-card">
+      <div class="pc-q"><span class="pc-q-badge">问题</span>你为什么想做咨询？</div>
+      <div class="pc-a">
+        <div class="line1">P · 结论：因为我发现自己最擅长的事，就是把复杂信息变成清楚的分析，而咨询正好需要这个。</div>
+        <div class="rest">
+          R · 理由：我在IQVIA和国药的实习，表面上行业不一样，但训练的核心是同一件事——从分散的、来源不统一的信息里提炼出有逻辑的结论。<br><br>
+          E · 例子：比如在国药做医药大模型研究，我需要看50多份报告，区分哪些案例是真实落地的、哪些只是概念宣传，最后整理成团队能直接用的报告。这个过程让我很有成就感。<br><br>
+          P · 重申：所以我觉得咨询，尤其是沙利文这种做行业研究的，和我真正擅长的事情是匹配的。
+        </div>
+      </div>
+    </div>
+
+    <div class="template-box">
+      <div class="tpl-lbl">🧲 记忆钩子</div>
+      <div class="tpl-text"><span class="tpl-hi">P</span>结论 → <span class="tpl-hi">R</span>理由 → <span class="tpl-hi">E</span>例子 → <span class="tpl-hi">P</span>回到结论</div>
+      <div class="tpl-sub">像一个三明治：结论是面包（头尾），理由+例子是夹心<br>开头和结尾说同一件事，让对方记住你的核心观点</div>
+    </div>
+  </div>
+</div>
+
+<!-- 脑子空白急救 -->
+<div class="card">
+  <div class="card-h"><span class="badge b5">急救包</span><div><div class="card-title">脑子空白急救 · 三个万能动作</div><div class="card-sub">当你完全不知道说什么的时候</div></div></div>
+  <div class="card-b">
+    <div class="step-flow">
+      <div class="sf-item">
+        <div class="sf-num">①</div>
+        <div class="sf-content">
+          <strong>重复问题，买3秒时间</strong>
+          <span class="sub">说："您问的是关于XX方面，对吗？" 或者 "让我想一下……"<br>这不是软弱，是在确认理解，专业的表现。</span>
+        </div>
+      </div>
+      <div class="sf-item">
+        <div class="sf-num">②</div>
+        <div class="sf-content">
+          <strong>说"我从两个角度来回答"，然后想第一个角度</strong>
+          <span class="sub">不用先想好两个，先说出这句话，脑子会自动找。找到第一个说出来，第二个自然跟上。</span>
+        </div>
+      </div>
+      <div class="sf-item">
+        <div class="sf-num">③</div>
+        <div class="sf-content">
+          <strong>回到你最熟悉的例子</strong>
+          <span class="sub">任何分析类问题，都可以说"我在国药做过类似的研究，当时……"把问题拉回到你熟悉的经历上。</span>
+        </div>
+      </div>
+    </div>
+    <div class="template-box">
+      <div class="tpl-lbl">万能救场句</div>
+      <div class="tpl-text">"<span class="tpl-hi">让我想一下</span>……我觉得最核心的一点是——"</div>
+      <div class="tpl-sub">说完"最核心的一点是"，你的脑子会自动去找那个最核心的点<br>不用想全部，只想最重要的那一个</div>
+    </div>
+  </div>
+</div>
+
+<!-- 总结 -->
+<div class="card">
+  <div class="card-h"><span class="badge b5">总结</span><div><div class="card-title">三个方法 · 怎么用</div></div></div>
+  <div class="card-b" style="padding:0">
+    <table class="tbl">
+      <thead><tr><th>问题类型</th><th>用哪个方法</th><th>第一句话模板</th></tr></thead>
+      <tbody>
+        <tr><td>讲自己经历<br><span style="font-size:11px;color:var(--text-dim)">你做了什么/最大收获</span></td><td><span class="mb" style="background:#fdf0ee;color:#c0392b">PREP</span></td><td>"简单来说，[结论]。主要原因是……比如……"</td></tr>
+        <tr><td>分析类问题<br><span style="font-size:11px;color:var(--text-dim)">你怎么看/如何研究</span></td><td><span class="mb" style="background:#fdf0ee;color:#c0392b">万能开场</span></td><td>"我从两/三个角度来回答——第一个是……"</td></tr>
+        <tr><td>观点类问题<br><span style="font-size:11px;color:var(--text-dim)">你为什么/你觉得</span></td><td><span class="mb" style="background:#fdf0ee;color:#c0392b">PREP</span></td><td>"我觉得[结论]，主要有两个原因……"</td></tr>
+        <tr><td>完全不知道说什么</td><td><span class="mb" style="background:#fdf0ee;color:#c0392b">急救包</span></td><td>"让我想一下……我觉得最核心的一点是——"</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+`;
+document.querySelector('.main').appendChild(sec);
+})();
+</script>
